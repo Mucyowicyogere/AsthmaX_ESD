@@ -21,6 +21,7 @@ LiquidCrystal lcd(48, 49, 50, 51, 52, 53);
 #define LED_PIN 28
 #define BUTTON_PIN 32
 #define MQ2pin 0
+
 const int PulseWire = A5;
 const int LED13 = 13; // The on-board Arduino LED, close to PIN 13.
 
