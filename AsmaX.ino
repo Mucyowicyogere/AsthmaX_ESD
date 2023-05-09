@@ -1,5 +1,4 @@
-// This code includes necessary libraries and sets up the pins for different sensors and components
-
+//including libraries for sensors
 // DHT library for reading temperature and humidity from DHT11 sensor
 #include <DHT.h>
 
@@ -17,7 +16,7 @@
 // Define LCD object with pin numbers
 LiquidCrystal lcd(48, 49, 50, 51, 52, 53);
 
-// Define pin numbers for different sensors and components
+// Define pin numbers for DHT11,MQ2 air sensors and components like the LED and the Button
 #define DHT11_PIN 46
 #define LED_PIN 28
 #define BUTTON_PIN 32
