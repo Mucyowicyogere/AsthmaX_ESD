@@ -1,37 +1,63 @@
+// including the sensor libraries 
 #include <DHT.h>
 #include <LiquidCrystal.h>
 #include <SoftwareSerial.h>
 #define USE_ARDUINO_INTERRUPTS true
 #include <PulseSensorPlayground.h>
+
+// Initializing the LiquidCrystal display using pins 48, 49, 50, 51, 52, and 53
 LiquidCrystal lcd(48, 49, 50, 51, 52, 53);
+
+// Defining the pin numbers for DHT11 sensor, LED, and button
 #define DHT11_PIN 46
 #define LED_PIN 28
 #define BUTTON_PIN 32
 
+// Initializing the DHT11 sensor with its pin number
 DHT dht(DHT11_PIN, DHT11);
+
+// Initializing the SoftwareSerial object for the SIM900 GSM shield with RX pin as 7 and TX pin as 8
 SoftwareSerial SIM900(7, 8); 
+
+// Defining the pin number for the MQ2 gas sensor
 #define MQ2pin 0
 
+// Initializing variables to store sensor values  
 float air;  //variable to store sensor value
-float temp, hum;
-float high_temp_thres= 29, high_hum_thres= 65, high_air_thres= 100, high_pulse_thres= 120, low_temp_thres= 26.1, low_hum_thres= 30, low_air_thres= 51, low_pulse_thres= 40;
-int count;
-const int PulseWire = A5;
-const int LED13 = 13; // The on-board Arduino LED, close to PIN 13.
-int myBPM;
-int Threshold = 550;
+float temp, hum; //variable to store temperature value and humidity  value
 
+//setting threshold values
+float high_temp_thres= 29, high_hum_thres= 65, high_air_thres= 100, high_pulse_thres= 120, low_temp_thres= 26.1, low_hum_thres= 30, low_air_thres= 51, low_pulse_thres= 40;
+
+//initializing the counter 
+int count;
+
+// Defining the pin number for Pulse sensor
+const int PulseWire = A5; // connecting the S pin to the A5
+const int LED13 = 13; // The on-board Arduino LED, close to PIN 13.
+
+int myBPM; // value to store the beat per minute
+
+int Threshold = 550;// Threshold for the BPM
+
+// Initializing the PulseSensorPlayground object for the pulse sensor
 PulseSensorPlayground pulseSensor;
 
 
 void setup(){
+ // Starting the LCD display with 16 columns and 2 rows
   lcd.begin(16, 2);
+// Starting the DHT11 sensor
   dht.begin();
+// Setting the LED_PIN as an output and BUTTON_PIN as an input
   pinMode(LED_PIN, OUTPUT);
   pinMode(BUTTON_PIN, INPUT);
+// Configuring the pulse sensor
   pulseSensor.analogInput(PulseWire);   
   // pulseSensor.blinkOnPulse(LED);       //auto-magically blink Arduino's LED with heartbeat.
   pulseSensor.setThreshold(Threshold); 
+	
+// Starting the pulse sensor and printing a message to Serial Monitor
   if(pulseSensor.begin())
   {
     Serial.println("pulse sensing in action!");
@@ -40,6 +66,8 @@ void setup(){
   SIM900.begin(19200);
   // time to  GSM shield to log on to network
   delay(5000);
+
+//initializing the counter
   count = 0;
 } 
 
